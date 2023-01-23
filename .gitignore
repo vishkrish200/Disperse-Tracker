@@ -3,5 +3,4 @@ package-lock.json
 .vscode
 .env
 pb_data
-pocketbase
 pb_migrations
