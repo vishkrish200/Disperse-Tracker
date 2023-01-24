@@ -1,6 +1,5 @@
 import { Network, Alchemy, AlchemySubscription, toHex } from "alchemy-sdk";
 import { EmbedBuilder, WebhookClient } from "discord.js";
-import { createClient } from "@supabase/supabase-js";
 import PocketBase from "pocketbase";
 import * as dotenv from "dotenv";
 import { ethers } from "ethers";
@@ -9,22 +8,16 @@ import { disperse } from "./operations.js";
 dotenv.config();
 
 //pocketbase config
-const pb = new PocketBase("http://127.0.0.1:8090");
+const pb = new PocketBase("http://34.28.48.120:80");
 const authData = await pb.admins.authWithPassword(
   "test@test.com",
-  "Password1234"
+  "password1234"
 );
 const records = await pb
   .collection("wallets")
   .getFullList(200 /* batch size */, {
     sort: "-created",
   });
-// console.log(records);
-
-//supabse client config
-const supabaseUrl = "https://qdoexehcrycynqjrixyt.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 //discord webhook stuff
 const disperseClient = new WebhookClient({
