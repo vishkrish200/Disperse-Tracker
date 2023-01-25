@@ -3,10 +3,9 @@ import { EmbedBuilder, WebhookClient } from "discord.js";
 import PocketBase from "pocketbase";
 import * as dotenv from "dotenv";
 import { ethers } from "ethers";
-import fetch from "node-fetch";
 import { disperse } from "./operations.js";
 import eventsource from "eventsource";
-// import "cross-fetch/dist/node-polyfill";
+import "cross-fetch/polyfill";
 
 global.EventSource = eventsource;
 dotenv.config();
