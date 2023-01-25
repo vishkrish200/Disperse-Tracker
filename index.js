@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 import fetch from "node-fetch";
 import { disperse } from "./operations.js";
 import eventsource from "eventsource";
-import "cross-fetch/polyfill";
+// import "cross-fetch/polyfill";
 
 global.EventSource = eventsource;
 dotenv.config();
