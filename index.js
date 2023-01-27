@@ -34,15 +34,15 @@ const mintsClient = new WebhookClient({
 //alchemy settings
 const wallet_tracker1 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_1}`,
-  network: Network.ETH_GOERLI,
+  network: Network.ETH_MAINNET,
 };
 const wallet_tracker2 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_2}`,
-  network: Network.ETH_GOERLI,
+  network: Network.ETH_MAINNET,
 };
 const wallet_tracker3 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_3}`,
-  network: Network.ETH_GOERLI,
+  network: Network.ETH_MAINNET,
 };
 const wallet_tracker4 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_4}`,
