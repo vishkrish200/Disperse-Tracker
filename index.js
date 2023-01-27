@@ -66,7 +66,6 @@ const regular_disperse = "0xd152f549545093347a162dce210e7293f1452150";
 const regular_disperse_goerli = "0x9CC3Bc6cC9D22679EAd7b37716432881991C6B62";
 const ms_disperse = "0x1a90b3dead0113740266b7f7ea1136e8ed1b48c5";
 
-console.log("actions working??");
 //tracking disperse
 records.map(async (record) => {
   alchemy2.ws.on(

@@ -15,4 +15,4 @@ jobs:
             cd alch_wallet_tracker/
             git pull
             npm install
-            pm2 restart index.js --name alch_tracker
+            pm2 restart index.js --name alch
