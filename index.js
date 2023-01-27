@@ -77,7 +77,6 @@ records.map(async (record) => {
     },
 
     async (tx) => {
-      console.log(tx.to);
       if (
         tx.to.toUpperCase() == hypno_disperse.toUpperCase() ||
         tx.to.toUpperCase() == regular_disperse.toUpperCase() ||
@@ -103,7 +102,7 @@ records.map(async (record) => {
             inline: true,
           })
           .addFields({
-            name: "Value",
+            name: "Total Value",
             value: "`" + `${disperseInfo.total_value} ETH` + "`",
             inline: true,
           });
@@ -147,7 +146,7 @@ records.map(async (record) => {
           .setColor("Green")
           .addFields({
             name: "Links",
-            value: `[Transaction](https://etherscan.io/tx/${tx.transaction.hash})|[Wallet](https://etherscan.io/address/${record.address})`,
+            value: `[Transaction](https://etherscan.io/tx/${tx.transaction.hash}) | [Wallet](https://etherscan.io/address/${record.address})`,
             inline: true,
           })
           .addFields({
@@ -218,7 +217,7 @@ pb.collection("wallets").subscribe("*", async function () {
               inline: true,
             })
             .addFields({
-              name: "Value",
+              name: "Total Value",
               value: "`" + `${disperseInfo.total_value} ETH` + "`",
               inline: true,
             });
@@ -263,7 +262,7 @@ pb.collection("wallets").subscribe("*", async function () {
             .setColor("Green")
             .addFields({
               name: "Links",
-              value: `[Transaction](https://etherscan.io/tx/${tx.transaction.hash})|[Wallet](https://etherscan.io/address/${record.address})`,
+              value: `[Transaction](https://etherscan.io/tx/${tx.transaction.hash}) | [Wallet](https://etherscan.io/address/${record.address})`,
               inline: true,
             })
             .addFields({
