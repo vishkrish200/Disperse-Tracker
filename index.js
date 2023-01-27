@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import { ethers } from "ethers";
 import { disperse } from "./operations.js";
 import eventsource from "eventsource";
-import "cross-fetch/polyfill";
+import "cross-fetch/dist/node-polyfill.js";
 
 global.EventSource = eventsource;
 dotenv.config();
@@ -65,10 +65,121 @@ const hypno_disperse = "0xfcc926dfef1548a8e74c36d1b0d3c05f13b60918";
 const regular_disperse = "0xd152f549545093347a162dce210e7293f1452150";
 const regular_disperse_goerli = "0x9CC3Bc6cC9D22679EAd7b37716432881991C6B62";
 const ms_disperse = "0x1a90b3dead0113740266b7f7ea1136e8ed1b48c5";
-pb.collection("wallets").subscribe("*", async function (e) {
+
+//tracking disperse
+records.map(async (record) => {
+  alchemy2.ws.on(
+    {
+      method: AlchemySubscription.PENDING_TRANSACTIONS,
+      fromAddress: record.address,
+      includeRemoved: true,
+      hashesOnly: false,
+    },
+
+    async (tx) => {
+      if (
+        tx.to.toUpperCase() == hypno_disperse.toUpperCase() ||
+        tx.to.toUpperCase() == regular_disperse.toUpperCase() ||
+        tx.to.toUpperCase() == ms_disperse.toUpperCase() ||
+        tx.to.toUpperCase() == regular_disperse_goerli.toUpperCase()
+      ) {
+        const disperseEmbed = new EmbedBuilder();
+        const disperseInfo = await disperse(tx.hash, alchemy1);
+        disperseEmbed
+          .setTitle(record.name)
+          .setDescription(
+            `dispersed ${disperseInfo.each_value} ETH to ${disperseInfo.wallets} wallets`
+          )
+          .setColor("Yellow")
+          .addFields({
+            name: "Links",
+            value: `[Transaction](https://etherscan.io/tx/${tx.hash}) | [Wallet](https://etherscan.io/address/${record.address})`,
+            inline: true,
+          })
+          .addFields({
+            name: "Contract",
+            value: `[${disperseInfo.disperse_contract}](https://etherscan.io/address/${tx.to})`,
+            inline: true,
+          })
+          .addFields({
+            name: "Value",
+            value: "`" + `${disperseInfo.total_value} ETH` + "`",
+            inline: true,
+          });
+        await disperseClient.send({
+          content: " ",
+          username: "Disperse Tracker",
+          avatarURL: "https://i.imgur.com/AfFp7pu.png",
+          embeds: [disperseEmbed],
+        });
+        console.log("PENDING");
+        console.log(record.name);
+        console.log(tx);
+      }
+    }
+  );
+  alchemy3.ws.on(
+    {
+      method: AlchemySubscription.MINED_TRANSACTIONS,
+      addresses: [
+        {
+          from: record.address,
+        },
+      ],
+      includeRemoved: true,
+      hashesOnly: false,
+    },
+    async (tx) => {
+      if (
+        tx.transaction.to.toUpperCase() == hypno_disperse.toUpperCase() ||
+        tx.transaction.to.toUpperCase() == regular_disperse.toUpperCase() ||
+        tx.transaction.to.toUpperCase() == ms_disperse.toUpperCase() ||
+        tx.transaction.to.toUpperCase() == regular_disperse_goerli.toUpperCase()
+      ) {
+        const disperseEmbed = new EmbedBuilder();
+        const disperseInfo = await disperse(tx.transaction.hash, alchemy1);
+        disperseEmbed
+          .setTitle(record.name)
+          .setDescription(
+            `dispersed ${disperseInfo.each_value} ETH to ${disperseInfo.wallets} wallets`
+          )
+          .setColor("Green")
+          .addFields({
+            name: "Links",
+            value: `[Transaction](https://etherscan.io/tx/${tx.transaction.hash})|[Wallet](https://etherscan.io/address/${record.address})`,
+            inline: true,
+          })
+          .addFields({
+            name: "Contract",
+            value: `[${disperseInfo.disperse_contract}](https://etherscan.io/address/${tx.transaction.to})`,
+            inline: true,
+          })
+          .addFields({
+            name: "Total Value",
+            value: "`" + `${disperseInfo.total_value} ETH` + "`",
+            inline: true,
+          });
+        await disperseClient.send({
+          content: " ",
+          username: "Disperse Tracker",
+          avatarURL: "https://i.imgur.com/AfFp7pu.png",
+          embeds: [disperseEmbed],
+        });
+        console.log("MINED");
+        console.log(record.name);
+        console.log(tx);
+      }
+    }
+  );
+});
+
+//realtime connection
+pb.collection("wallets").subscribe("*", async function () {
   records = await pb.collection("wallets").getFullList(200 /* batch size */, {
     sort: "-created",
   });
+  alchemy2.ws.removeAllListeners();
+  alchemy3.ws.removeAllListeners();
   //tracking disperse
   records.map(async (record) => {
     alchemy2.ws.on(
@@ -80,6 +191,7 @@ pb.collection("wallets").subscribe("*", async function (e) {
       },
 
       async (tx) => {
+        console.log(tx);
         if (
           tx.to.toUpperCase() == hypno_disperse.toUpperCase() ||
           tx.to.toUpperCase() == regular_disperse.toUpperCase() ||
@@ -96,7 +208,7 @@ pb.collection("wallets").subscribe("*", async function (e) {
             .setColor("Yellow")
             .addFields({
               name: "Links",
-              value: `[Transaction](https://etherscan.io/tx/${tx.hash})|[Wallet](https://etherscan.io/address/${record.address})`,
+              value: `[Transaction](https://etherscan.io/tx/${tx.hash}) | [Wallet](https://etherscan.io/address/${record.address})`,
               inline: true,
             })
             .addFields({
@@ -121,7 +233,7 @@ pb.collection("wallets").subscribe("*", async function (e) {
         }
       }
     );
-    alchemy2.ws.on(
+    alchemy3.ws.on(
       {
         method: AlchemySubscription.MINED_TRANSACTIONS,
         addresses: [
