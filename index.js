@@ -38,11 +38,11 @@ const wallet_tracker1 = {
 };
 const wallet_tracker2 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_2}`,
-  network: Network.ETH_MAINNET,
+  network: Network.ETH_GOERLI,
 };
 const wallet_tracker3 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_3}`,
-  network: Network.ETH_MAINNET,
+  network: Network.ETH_GOERLI,
 };
 const wallet_tracker4 = {
   apiKey: `${process.env.ALCHEMY_API_KEY_4}`,
