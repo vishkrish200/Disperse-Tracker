@@ -107,7 +107,7 @@ records.map(async (record) => {
             inline: true,
           });
         await disperseClient.send({
-          content: " ",
+          content: "<@&1069153671264354354>",
           username: "Disperse Tracker",
           avatarURL: "https://i.imgur.com/AfFp7pu.png",
           embeds: [disperseEmbed],
@@ -222,7 +222,7 @@ pb.collection("wallets").subscribe("*", async function () {
               inline: true,
             });
           await disperseClient.send({
-            content: " ",
+            content: "<@&1069153671264354354>",
             username: "Disperse Tracker",
             avatarURL: "https://i.imgur.com/AfFp7pu.png",
             embeds: [disperseEmbed],
