@@ -10,6 +10,7 @@ export async function disperse(transaction_hash, alchemy1) {
   const regular_disperse = "0xd152f549545093347a162dce210e7293f1452150";
   const ms_disperse = "0x1a90b3dead0113740266b7f7ea1136e8ed1b48c5";
   const regular_disperse_goerli = "0x9CC3Bc6cC9D22679EAd7b37716432881991C6B62";
+  const astra_disperse = "0x23E79722Bb8B55a0d04f3AFbCFC34eb771526Adb";
 
   const tx = await alchemy1.core.getTransaction(transaction_hash);
 
@@ -72,6 +73,23 @@ export async function disperse(transaction_hash, alchemy1) {
       disperse_contract: "ms disperse",
       wallets: parsed.args.recipients.length,
       each_value: ethers.utils.formatEther(parsed.args[1][0]),
+      total_value: ethers.utils.formatEther(tx.value),
+    };
+    return output;
+  }
+
+  //for astra disperse
+  else if (tx.to.toUpperCase() == astra_disperse.toUpperCase()) {
+    const astra_iface = new ethers.utils.Interface([
+      "function dispense(address[] recipients) external payable",
+    ]);
+    const parsed = astra_iface.parseTransaction(tx);
+    const output = {
+      from: tx.from,
+      disperse_contract: "ms disperse",
+      wallets: parsed.args.recipients.length,
+      each_value:
+        ethers.utils.formatEther(tx.value) / parsed.args.recipients.length,
       total_value: ethers.utils.formatEther(tx.value),
     };
     return output;
