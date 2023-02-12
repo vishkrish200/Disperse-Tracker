@@ -86,7 +86,7 @@ export async function disperse(transaction_hash, alchemy1) {
     const parsed = astra_iface.parseTransaction(tx);
     const output = {
       from: tx.from,
-      disperse_contract: "ms disperse",
+      disperse_contract: "astra dispense",
       wallets: parsed.args.recipients.length,
       each_value:
         ethers.utils.formatEther(tx.value) / parsed.args.recipients.length,
