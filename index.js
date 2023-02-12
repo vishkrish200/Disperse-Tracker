@@ -65,6 +65,7 @@ const hypno_disperse = "0xfcc926dfef1548a8e74c36d1b0d3c05f13b60918";
 const regular_disperse = "0xd152f549545093347a162dce210e7293f1452150";
 const regular_disperse_goerli = "0x9CC3Bc6cC9D22679EAd7b37716432881991C6B62";
 const ms_disperse = "0x1a90b3dead0113740266b7f7ea1136e8ed1b48c5";
+const astra_disperse = "0x23E79722Bb8B55a0d04f3AFbCFC34eb771526Adb";
 
 //tracking disperse
 records.map(async (record) => {
@@ -81,7 +82,8 @@ records.map(async (record) => {
         tx.to.toUpperCase() == hypno_disperse.toUpperCase() ||
         tx.to.toUpperCase() == regular_disperse.toUpperCase() ||
         tx.to.toUpperCase() == ms_disperse.toUpperCase() ||
-        tx.to.toUpperCase() == regular_disperse_goerli.toUpperCase()
+        tx.to.toUpperCase() == regular_disperse_goerli.toUpperCase() ||
+        tx.to.toUpperCase() == astra_disperse.toUpperCase()
       ) {
         const disperseEmbed = new EmbedBuilder();
         const disperseInfo = await disperse(tx.hash, alchemy1);
@@ -134,7 +136,9 @@ records.map(async (record) => {
         tx.transaction.to.toUpperCase() == hypno_disperse.toUpperCase() ||
         tx.transaction.to.toUpperCase() == regular_disperse.toUpperCase() ||
         tx.transaction.to.toUpperCase() == ms_disperse.toUpperCase() ||
-        tx.transaction.to.toUpperCase() == regular_disperse_goerli.toUpperCase()
+        tx.transaction.to.toUpperCase() ==
+          regular_disperse_goerli.toUpperCase() ||
+        tx.to.toUpperCase() == astra_disperse.toUpperCase()
       ) {
         const disperseEmbed = new EmbedBuilder();
         const disperseInfo = await disperse(tx.transaction.hash, alchemy1);
@@ -196,7 +200,8 @@ pb.collection("wallets").subscribe("*", async function () {
           tx.to.toUpperCase() == hypno_disperse.toUpperCase() ||
           tx.to.toUpperCase() == regular_disperse.toUpperCase() ||
           tx.to.toUpperCase() == ms_disperse.toUpperCase() ||
-          tx.to.toUpperCase() == regular_disperse_goerli.toUpperCase()
+          tx.to.toUpperCase() == regular_disperse_goerli.toUpperCase() ||
+          tx.to.toUpperCase() == astra_disperse.toUpperCase()
         ) {
           const disperseEmbed = new EmbedBuilder();
           const disperseInfo = await disperse(tx.hash, alchemy2);
@@ -250,7 +255,8 @@ pb.collection("wallets").subscribe("*", async function () {
           tx.transaction.to.toUpperCase() == regular_disperse.toUpperCase() ||
           tx.transaction.to.toUpperCase() == ms_disperse.toUpperCase() ||
           tx.transaction.to.toUpperCase() ==
-            regular_disperse_goerli.toUpperCase()
+            regular_disperse_goerli.toUpperCase() ||
+          tx.to.toUpperCase() == astra_disperse.toUpperCase()
         ) {
           const disperseEmbed = new EmbedBuilder();
           const disperseInfo = await disperse(tx.transaction.hash, alchemy2);
