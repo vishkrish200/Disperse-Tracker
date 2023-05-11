@@ -1,4 +1,4 @@
 # Disperse Wallet Tracker
 A wallet tracker which filter's through only disperse events and returns an embed describing the details of the transaction
 
-<img width="327" alt="Screenshot 2023-05-11 at 11 42 07 AM" src="https://github.com/vishkrish200/alch_wallet_tracker/assets/47349681/ec1314a5-1fb0-4c3d-acb3-66182b806fa9">
+<img width="303" alt="Screenshot 2023-05-11 at 11 55 13 AM" src="https://github.com/vishkrish200/Disperse-Tracker/assets/47349681/ef6e1e10-76b6-42a1-ae96-6344f0cb4c60">
